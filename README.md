@@ -8,7 +8,7 @@ Star this repo if it's useful, I'll keep updating it if I know people are follow
 ### What is this?
 Basically, I wasted a lot of time trying to figure out shit before I could start my research. A lot of logistical issues, and some technical issues. While research related issues on IIIT-H are very well known and ***moderately*** well documented(like [this Ping! article](https://pingiiit.org/cracked-mia-visible-cracks-in-academia/)), I could never really find a lot of solutions. So this is my attempt at trying to make things ****slightly*** easier for anyone who's newly entering the research life at IIIT-H. This will cover **only technical** issues.
 
-**DISCLAIMER**: I'm a CVIT boi so everything mentioned here is from my own experience. If you want to contribute regarding other labs (or even CVIT), please fork and make a pull request, I'll approve it (provided it's not too controversial since thisis publicly accessible. But feel free to DM me some ***masala*** anyway 😛)
+**DISCLAIMER**: I'm a CVIT boi so everything mentioned here is from my own experience. If you want to contribute regarding other labs (or even CVIT), please fork and make a pull request, I'll approve it (provided it's not too controversial since this is publicly accessible. But feel free to DM me some ***masala*** anyway 😛)
 
 ### How accurate is this?
 Well, probably not very accurate. I haven't actually bothered to look up any of the things I've written here, so it's only as accurate as my mind thinks it is (which I don't think actually reflects reality). So use this at your own peril. But if you do find errors, please do suggest fixes by making pull requests.
@@ -59,6 +59,8 @@ source my_project/bin/activate
 ```
 To stop using virtualenv - `deactivate`
 
+**sidenote** - You can use additional packages like `virtualenvwrapper` for easy management of your virtualenvs. But it takes more effort to set up than virtualenv. I tried to teach this when I was TA for SSAD and no one ended up using it 😩 since virtualenv does the trick as well with lesser effort in setting up. But if you're working on multiple projects simultaneously, definitely consider using `virtualenvwrapper`
+
 #### jupyter notebook
 I share a love-hate relationship with Jupyter Notebooks. They're super easy to use, but if you aren't careful you could easily screw up a lot of things. If you didn't know this already, Jupyter Notebooks are just a better version of the `ipython` interface on the terminal. You have the option to divide your code into 'cells' and view it in a nice interface on your browser. 
 
@@ -75,9 +77,42 @@ The virtualenv will now appear in the list of your kernels with the name 'projec
 
 **sidenote** - I hate jupyter notebooks because even after you delete a cell, the variables still remain even though 'deleting' a cell gives you the impression that everything in it no longer exists. So any other part of the code that still uses these 'deleted' variables continue to function accurately even though they shouldn't. So please restart your kernel everytime you make changes (you know, just in case). Also, if you have any code that you intend to deploy for long periods of time or for large data, please convert all your code to a .py file and run it from the terminal. Jupyter is great to develop code, not to deploy. Use it to deploy at your own peril.
 
+#### anaconda
+Anaconda is a super powerful tool for data science. It comes with a lot of things, including a very nice virtualenv manager and easy interface to install multiple packages and different versions of python with easy integration into jupyter notebook. I've found it to be overkill for most of my projects, and I've predominantly used it to install different versions of python that would be impossible to do otherwise (specifically python3.6)
+
+Installation - 
+- Download the installer from [here](https://www.anaconda.com/distribution/#linux)
+- Run the bash script
+
+To install a specific version of python - `conda install python==$pythonversion$`
+
+#### argparse
+I want to avoid discussing about specific packages because there are just so many of them that are useful. But perhaps one of the most used ones (at least for me) is `argparse`. It allows a python script to take arguments with great ease. It's really important when you're looking to automate python scripts.
+
+Usage example- 
+```python
+import argparse
+
+parser = argparse.ArgumentParser(description="Script to upload a tar file to Google Drive")
+
+parser.add_argument("--tar_dir", help="Path to the tar dir")
+parser.add_argument("--date", help="Date for which processing needs to be done")
+
+arguments = parser.parse_args()
+
+tar_dir = arguments.tar_dir 
+# tar_dir now stores whatever argument was passed with the --tar_dir flag
+date = arguments.date 
+# date now stores whatever argument was passed with the --date flag
+```
+
 --------------------------------------------------------------------------
 
 ## ADA for Dummies
+
+--------------------------------------------------------------------------
+
+## Documentation basics
 
 --------------------------------------------------------------------------
 
