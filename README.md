@@ -46,7 +46,34 @@ Some examples of cron jobs I've run -
 --------------------------------------------------------------------------
 
 ## Python basics
+You're probably better off Googling this part, but I'll list down a few important things I've used over the last year anyway. ALWAYS use python3. Lots of packages from `python2` are now beginning to deprecate, so even if you feel like it won't affect you if you do shit in `python2`, it'll definitely come back to bite you some day. Some packages work best on `python3.6` instead of `python3.7`. So look up documentation of any package before you begin using it. 
 
+#### virtualenv
+For most serious work you'll do, you'll be using systems on which you aren't an admin or super user. Don't bother asking anyone to give you access to install packages, no sane system admin will install packages on a per user basis. Luckily, python comes with a very handy solution to this problem - virtualenv.
+
+Installation - `pip3 install virtualenv --user`
+Usage - 
+```bash
+virtualenv -p python3 my_project
+source my_project/bin/activate
+```
+To stop using virtualenv - `deactivate`
+
+#### jupyter notebook
+I share a love-hate relationship with Jupyter Notebooks. They're super easy to use, but if you aren't careful you could easily screw up a lot of things. If you didn't know this already, Jupyter Notebooks are just a better version of the `ipython` interface on the terminal. You have the option to divide your code into 'cells' and view it in a nice interface on your browser. 
+
+Installation - `pip3 install jupyter --user`
+Usage - `jupyter notebook`
+
+Using a virtualenv with a jupyter notebook - 
+```bash
+source projectname/bin/activate
+pip install ipykernel
+ipython kernel install --user --name=projectname
+```
+The virtualenv will now appear in the list of your kernels with the name 'projectname'
+
+**sidenote** - I hate jupyter notebooks because even after you delete a cell, the variables still remain even though 'deleting' a cell gives you the impression that everything in it no longer exists. So any other part of the code that still uses these 'deleted' variables continue to function accurately even though they shouldn't. So please restart your kernel everytime you make changes (you know, just in case). Also, if you have any code that you intend to deploy for long periods of time or for large data, please convert all your code to a .py file and run it from the terminal. Jupyter is great to develop code, not to deploy. Use it to deploy at your own peril.
 
 --------------------------------------------------------------------------
 
@@ -54,6 +81,7 @@ Some examples of cron jobs I've run -
 
 --------------------------------------------------------------------------
 
-## What next?
+## To-Do
+0. Data Science basics
 1. Deep learning basics
 2. Computer Vision basics
