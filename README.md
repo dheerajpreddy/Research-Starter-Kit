@@ -37,4 +37,23 @@ Useful commands:-
 - `ctrl+D` - Executing this inside a tmux session kills the tmux session, and it will take you back to your regular terminal session.
 **sidenote** - PLEASE BE CAREFUL IN RUNNING `ctrl+B D` and `ctrl+D`. A couple of times I've accidentally done `ctrl+D` instead of detaching the session which ended up with me losing out on a lot of data :(((
 
+#### cron
+cron is one of my favourite Linux applications. It's used to schedule jobs and it's very easy to pick up. Just enter `crontab -e` and pick the favoured editor of your choice (I prefer vim over nano 😤). Read through the text file that opens up. It has all the instructions commented out with some very nice examples. 
+Some examples of cron jobs I've run -
+- `0 1,4,23 * * * bash /home/football_analysis/job.sh` - Runs the bash script at 1 AM, 4 AM and 11 PM everyday
+- `20 4 * * * bash /home/dheerajr/Independent_project/deploy/scraper.sh` - Runs the bash script at 4:20 AM everyday
 
+--------------------------------------------------------------------------
+
+## Python basics
+
+
+--------------------------------------------------------------------------
+
+## ADA for Dummies
+
+--------------------------------------------------------------------------
+
+## What next?
+1. Deep learning basics
+2. Computer Vision basics
