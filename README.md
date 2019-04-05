@@ -125,7 +125,7 @@ date = arguments.date
     - No access to `share1` or `share2` in this mode. Instead, you have `/scratch` which stores large data inside a node, but only for 10 days. After 10 days, it gets wiped out. This is only accessible inside a node, and inaccessible through regular mode. `/scratch` is unique to the particular gnode that has been assigned to you. If you have data on scratch in gnodeXX and are unable to request the same gnodeXX again, you've lost that data.
           - To request a particular node - `sinteractive -c 40 -g 2 -w gnode14`
     - Inside a node, use virtualenvs to run python scripts / jupyter notebook
-          - There is no GUI to ADA, so you'll need to run jupyter notebook on some port on ADA and then forward that port to your local PC so that you can access jupyter notebook that is running on ADA through your PC. There's a neat script to do this :-
+          - There is no GUI to ADA, so you'll need to run jupyter notebook on some port on ADA and then forward that port to your local PC so that you can access jupyter notebook that is running on ADA through your PC. There's a neat script to do this. Save the below bash script as `jp.sh` and run the following - `./jp.sh XXXX YYYY <local_PC_IP> <PC_username>`. Now you can open `localhost:YYYY` on your PC and access jupyter on your browser.
 ```bash
 #!/bin/bash
 
@@ -155,7 +155,6 @@ echo "Port forwarding. $uid @ $lip server port:$1  local port:$2"
 ssh -N -f -R "$2":localhost:"$1"  "$uid"@"$lip"
 echo "open 'localhost:$2' in browser"
 ```
-            - Save this script as `jp.sh` and run the following - `./jp.sh XXXX YYYY <local_PC_IP> <PC_username>`. Now you can open `localhost:YYYY` on your PC and access jupyter on your browser.
 
 
 --------------------------------------------------------------------------
