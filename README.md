@@ -23,6 +23,7 @@ I'm guessing you should already know this. Some examples -
 - `ssh dheerajreddy.p@ada.iiit.ac.in`
 - `scp -r test_dir/ dheerajreddy.p@ada.iiit.ac.in:~/`
 - `rsync -a --progress -h test.mp4 xyz@preon.iiit.ac.in:~/public_html/m.mp4`
+
 **sidenote** - All of these work on port 22. So if any of these don't work, try allowing the port. On Ubuntu that's done by `sudo ufw allow 22`
 
 #### tmux
