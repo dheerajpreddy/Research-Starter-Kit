@@ -111,6 +111,52 @@ date = arguments.date
 --------------------------------------------------------------------------
 
 ## ADA for Dummies
+- ADA is how you access the GPUs at IIIT-H. If you're doing anything related to machine learning, you're gonna have to read this very carefully.
+- Accessing ADA - `ssh dheerajreddy.p@ada.iiit.ac.in`
+- There are mainly 2 types of user accounts on ADA - student and research. Student accounts have low quality of service, i.e., can access a max of only 40 CPUs and 2 GPUs. Research accounts have medium QoS, i.e., 40 CPUs and 4 GPUs. If you want to increase QoS, send an email to hpc@iiit.ac.in CCing your advisor and stating why you need more.
+- ADA has two modes - regular, node
+- In regular mode, you have access to no resources. You just have a CPU which you can use to transfer data. You can't even run python in this mode. This is the mode you enter in immediately after logging in. 
+    - In regular mode you have access to two large scale data storage partitions - `share1` and `share2` \
+          - `share1` - `/share1/<username>`
+          - `share2` - `/share2`
+    - Both these storage modes are accessible only in the regular mode and NOT accessible in the node mode. They can only accessed in the regular mode. Usually this space is sued to store datasets.
+- In node mode, you have access to some CPU and GPU cores. This is where all your processing will be done. 
+    - To enter node mode - `sinteractive -c 40 -g 2`. If you have a CVIT account use this command with the flag `-A $USER`
+    - No access to `share1` or `share2` in this mode. Instead, you have `/scratch` which stores large data inside a node, but only for 10 days. After 10 days, it gets wiped out. This is only accessible inside a node, and inaccessible through regular mode. `/scratch` is unique to the particular gnode that has been assigned to you. If you have data on scratch in gnodeXX and are unable to request the same gnodeXX again, you've lost that data.
+          - To request a particular node - `sinteractive -c 40 -g 2 -w gnode14`
+    - Inside a node, use virtualenvs to run python scripts / jupyter notebook
+          - There is no GUI to ADA, so you'll need to run jupyter notebook on some port on ADA and then forward that port to your local PC so that you can access jupyter notebook that is running on ADA through your PC. There's a neat script to do this :-
+```bash
+#!/bin/bash
+
+if [ $# -lt 2 ] ; then
+    echo "jp.sh <port on server> <port n local>" 
+    echo "example: sh jp.sh 8686 8989"
+    echo "jp.sh <port on server> <port n local> <local ip> <user name>"
+    echo "example: sh jp.sh 8686 8989 10.x.x.x username"
+    exit 1
+fi
+
+if [ $# -ge 3 ]; then
+   lip="$3"
+else
+   lip="10.x.x.x" #default IP of your choice
+fi
+
+if [ $# -ge 4 ]; then
+   uid="$4"
+else
+   uid="username" #default username of your choice
+fi
+
+(cd ~ && jupyter notebook --no-browser --ip=0.0.0.0 --port="$1" > mylog 2>&1 &)
+echo "jupuyter notebook started on server port $1"
+echo "Port forwarding. $uid @ $lip server port:$1  local port:$2"
+ssh -N -f -R "$2":localhost:"$1"  "$uid"@"$lip"
+echo "open 'localhost:$2' in browser"
+```
+            - Save this script as `jp.sh` and run the following - `./jp.sh XXXX YYYY <local_PC_IP> <PC_username>`. Now you can open `localhost:YYYY` on your PC and access jupyter on your browser.
+
 
 --------------------------------------------------------------------------
 
