@@ -52,6 +52,7 @@ You're probably better off Googling this part, but I'll list down a few importan
 For most serious work you'll do, you'll be using systems on which you aren't an admin or super user. Don't bother asking anyone to give you access to install packages, no sane system admin will install packages on a per user basis. Luckily, python comes with a very handy solution to this problem - virtualenv.
 
 Installation - `pip3 install virtualenv --user`
+
 Usage - 
 ```bash
 virtualenv -p python3 my_project
@@ -65,6 +66,7 @@ To stop using virtualenv - `deactivate`
 I share a love-hate relationship with Jupyter Notebooks. They're super easy to use, but if you aren't careful you could easily screw up a lot of things. If you didn't know this already, Jupyter Notebooks are just a better version of the `ipython` interface on the terminal. You have the option to divide your code into 'cells' and view it in a nice interface on your browser. 
 
 Installation - `pip3 install jupyter --user`
+
 Usage - `jupyter notebook`
 
 Using a virtualenv with a jupyter notebook - 
