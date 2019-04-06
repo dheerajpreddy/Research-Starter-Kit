@@ -125,41 +125,40 @@ date = arguments.date
     - No access to `share1` or `share2` in this mode. Instead, you have `/scratch` which stores large data inside a node, but only for 10 days. After 10 days, it gets wiped out. This is only accessible inside a node, and inaccessible through regular mode. `/scratch` is unique to the particular gnode that has been assigned to you. If you have data on scratch in gnodeXX and are unable to request the same gnodeXX again, you've lost that data.
           - To request a particular node - `sinteractive -c 40 -g 2 -w gnode14`
     - Inside a node, use virtualenvs to run python scripts / jupyter notebook
-          - There is no GUI to ADA, so you'll need to run jupyter notebook on some port on ADA and then forward that port to your local PC so that you can access jupyter notebook that is running on ADA through your PC. There's a neat script to do this. Save the below bash script as `jp.sh` and run the following - `./jp.sh XXXX YYYY <local_PC_IP> <PC_username>`. Now you can open `localhost:YYYY` on your PC and access jupyter on your browser.
-```bash
+          - There is no GUI to ADA, so you'll need to run jupyter notebook on some port on ADA and then forward that port to your local PC so that you can access jupyter notebook that is running on ADA through your PC. There's a neat script to do this (added to this repo as [jp.sh](https://github.com/dheerajpreddy/Research-Starter-Kit/blob/master/jp.sh). Save the script as `jp.sh` and run the following - `./jp.sh XXXX YYYY <local_PC_IP> <PC_username>`. Now you can open `localhost:YYYY` on your PC and access jupyter on your browser.
+- Set a password for your jupyter notebook so that you don't need to authenticate with a key all the time - `jupyter notebook password`
+- To check for nodes currently occupied by you - `squeue -u $USER`
+- `sinteractive` has a time limit of 6 hours. In order to run longer codes, you'll need to write a batch job and run it using `sbatch`. Batch jobs are just bash scripts that you can submit using `sbatch batch_job.sh`
+- Format of a batch job's headers -
+```bash 
 #!/bin/bash
-
-if [ $# -lt 2 ] ; then
-    echo "jp.sh <port on server> <port n local>" 
-    echo "example: sh jp.sh 8686 8989"
-    echo "jp.sh <port on server> <port n local> <local ip> <user name>"
-    echo "example: sh jp.sh 8686 8989 10.x.x.x username"
-    exit 1
-fi
-
-if [ $# -ge 3 ]; then
-   lip="$3"
-else
-   lip="10.x.x.x" #default IP of your choice
-fi
-
-if [ $# -ge 4 ]; then
-   uid="$4"
-else
-   uid="username" #default username of your choice
-fi
-
-(cd ~ && jupyter notebook --no-browser --ip=0.0.0.0 --port="$1" > mylog 2>&1 &)
-echo "jupuyter notebook started on server port $1"
-echo "Port forwarding. $uid @ $lip server port:$1  local port:$2"
-ssh -N -f -R "$2":localhost:"$1"  "$uid"@"$lip"
-echo "open 'localhost:$2' in browser"
+#SBATCH -n 16
+#SBATCH --mem-per-cpu=2048
+#SBATCH --time=72:00:00
+#SBATCH --mincpus=32
+#SBATCH --gres=gpu:4
+#SBATCH --mail-user=dheerajreddy.p@students.iiit.ac.in
+#SBATCH --mail-type=ALL
+module add cuda/8.0
+module add cudnn/7-cuda-8.0
 ```
+- What the headers mean
+    - -n is some number, I have no idea what for. Just leave it be for now.
+    - --mem-per-cpu is self explanatory, probably shouldn't change this either.
+    - --time is time limit for your batch script to run. After this time, it'll stop automatically.
+    - --mincpus is number of cpus you're requesting
+    - --gres=gpu: is number of GPUs you're requesting
+    - --mail-user= will send an email to your email after batch job completes. May not work for non-IIIT email addresses.
+    - --mail-type= I have no idea
+    - Last two lines are just so that you can access CUDA. I don't completely understand what it is, but without that GPUs don't work. The remainder of the batch script is essentially just a bash script. You should ideally activate your virtualenv, and then run your python scripts in there. Batch jobs always produce outputs in slurm-<batch_job_id>.out files. However, you should always print out your own logs in separate files in the format that you want so that it's easy to figure out where your code has gone wrong. You can check out an [example batch job here](https://github.com/dheerajpreddy/Research-Starter-Kit/blob/master/sample_batch_job.sh)
+- You can cancel an interactive session or batch job by - `scancel <job/session_id>`
+- For more (detailed) info - http://hpc.iiit.ac.in/wiki/index.php/Ada_User_Guide
 
+**free advice** - Most batch jobs are used since the script takes too long to run. So how do I know if my script is working for sure? Just test it for small quantities first, and then if nothing bad happens, assume that nothing bad will happen for large quantities either. Usually, reducing quantities for testing implies reducing the number of time some for loop or while loop is running. If the first 100/1000/n iterations run okay in a batch job, the next 1000 x n iterations should ideally also run without any errors. Regardless, print out detailed logs so that if it goes wrong, you can just correct it and re run it later.
 
---------------------------------------------------------------------------
+**more free advice** - If you want to access/check on a large amount of data that's being outputted by your batch job, you should smartly request for max number of GPUs and <cpu_limit> - 1 number of CPUs for your batch job. This is so that you can request an sinteractive session for that node with ease. It is unlikely that anyone would request for only 1 CPU on ADA, so you're almost always guaranteed to get access to it.
 
-## Documentation basics
+**even more free advice** - So you wanna be a badass and still continue to use Jupyter for production code, huh? 🙄 Well, tmux is super useful in this case. Log in, create new tmux session and then enter into a node. That way your ssh session can exit without hurting the interactive session.
 
 --------------------------------------------------------------------------
 
@@ -167,3 +166,4 @@ echo "open 'localhost:$2' in browser"
 0. Data Science basics
 1. Deep learning basics
 2. Computer Vision basics
+3. Documentation basics
