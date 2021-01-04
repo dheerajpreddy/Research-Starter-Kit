@@ -184,7 +184,7 @@ ssh -p 6000 user@localhost
 5. Install the Remote-SSH extension from the Extension Store of VS Code
 6. Create and launch the Remote SSH session as usual and enter ```ssh -p 6000 user@localhost``` when prompted for the login and voila! You're in! Alternatively enter the following in your ssh configs file on your local machine (~/.ssh/config) and choose "ada" when prompted for the Remote Server. 
 ```
-Host ada
+Host gnode
   HostName localhost
   Port 6000
   User user
