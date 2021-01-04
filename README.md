@@ -162,6 +162,45 @@ module add cudnn/7-cuda-8.0
 
 --------------------------------------------------------------------------
 
+## Extras: Using GUI Tools
+If you don't prefer using terminal editors such as vim all the time or just don't have to patience to adapt to and learn a terminal driven workflow, these ssh hacks would get you on the same routine you might already be used to. 
+
+### VS Code
+VS Code over Remote SSH is not as straightforward as you might think as we don't (and can't) run scripts on the ada headnode/login node. And trying to launch VS Code Remote SSH would just lag out. These are the steps to get it right:
+1. Create a normal sinteracitve session as you would
+```bash
+ssh user@ada
+sinteractive -c 40 -g 4 -A $USER
+```
+2. Take note of the machine you logged into. In our case, let's assume we connected to gnode01.
+3. Port forward ssh connection from the gnode via the headnode as a ProxyJump
+```bash
+ssh -L 6000:localhost:22 -J user@ada user@gnode01
+```
+4. (optional) Test the port forwarded connection
+```bash
+ssh -p 6000 user@localhost
+```
+5. Install the Remote-SSH extension from the Extension Store of VS Code
+6. Create and launch the Remote SSH session as usual and enter ```ssh -p 6000 user@localhost``` when prompted for the login and voila! You're in! Alternatively enter the following in your ssh configs file on your local machine (~/.ssh/config) and choose "ada" when prompted for the Remote Server. 
+```
+Host ada
+  HostName localhost
+  Port 6000
+  User user
+```
+
+### PyCharm
+Remote interpreters can be configured in the same way as mentioned above. Take note that this requires a professional license of PyCharm. The folder syncing options can be configured under `Tools>Deployment`. Most of the information is already available in the [official docs](https://www.jetbrains.com/help/pycharm/configuring-remote-interpreters-via-ssh.html). 
+
+### Sublime Text 3
+Check out [rmate](https://github.com/randy3k/RemoteSubl)
+
+### File Managers
+Most file managers such as Nautilus (the default Gnome one) have an option to browse files over a network connection. Making use of this by using `ssh://user@ada` and bookmarking your home folder is a particularly useful file management technique. 
+
+--------------------------------------------------------------------------
+
 ## To-Do
 0. Data Science basics
 1. Deep learning basics
