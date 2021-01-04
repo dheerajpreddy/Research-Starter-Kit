@@ -194,7 +194,7 @@ Host ada
 Remote interpreters can be configured in the same way as mentioned above. Take note that this requires a professional license of PyCharm. The folder syncing options can be configured under `Tools>Deployment`. Most of the information is already available in the [official docs](https://www.jetbrains.com/help/pycharm/configuring-remote-interpreters-via-ssh.html). 
 
 ### Sublime Text 3
-Check out [rmate](https://github.com/randy3k/RemoteSubl)
+Check out [rmate](https://github.com/randy3k/RemoteSubl). Note that this can open only files and not directories. 
 
 ### File Managers
 Most file managers such as Nautilus (the default Gnome one) have an option to browse files over a network connection. Making use of this by using `ssh://user@ada` and bookmarking your home folder is a particularly useful file management technique. 
