@@ -18,11 +18,12 @@ Well, probably not very accurate. I haven't actually bothered to look up any of 
 ## Linux basics
 Okay, now I know a lot of you will cringe at this. But hey, I genuinely didn't know some of these before I started my research work. So I'm guessing a lot of you don't either. If you do, feel free to skip through all of this.
 
-### ssh, scp, rsync
+### ssh, scp, rsync, sftp
 I'm guessing you should already know this. Some examples - 
 - `ssh dheerajreddy.p@ada.iiit.ac.in`
 - `scp -r test_dir/ dheerajreddy.p@ada.iiit.ac.in:~/`
 - `rsync -a --progress -h test.mp4 xyz@preon.iiit.ac.in:~/public_html/m.mp4`
+- If you are more comfortable with a GUI, open your file managaer and in the address bar of your file managager, enter: `sftp://username@ada.iiit.ac.in` and when prompted enter your credentials. For example in Dolphin, one can press `Ctrl+L` to quickly access the address bar and I would type in `sftp://badwolf@ada.iiit.ac.in` and enter my password when promted. You can now treat this for most purposes as a normal folder and can exceute GUI actions like drag copy paste
 
 **sidenote** - All of these work on port 22. So if any of these don't work, try allowing the port. On Ubuntu that's done by `sudo ufw allow 22`
 
