@@ -160,6 +160,10 @@ module add cudnn/7-cuda-8.0
 
 **even more free advice** - So you wanna be a badass and still continue to use Jupyter for production code, huh? 🙄 Well, tmux is super useful in this case. Log in, create new tmux session and then enter into a node. That way your ssh session can exit without hurting the interactive session.
 
+To free memory from Ada, use this command:
+
+`rm -r ./cache/`
+
 --------------------------------------------------------------------------
 
 ## Extras: Using GUI Tools
