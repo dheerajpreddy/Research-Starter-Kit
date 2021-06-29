@@ -126,6 +126,7 @@ date = arguments.date
           - To request a particular node - `sinteractive -c 40 -g 2 -w gnode14`
     - Inside a node, use virtualenvs to run python scripts / jupyter notebook
           - There is no GUI to ADA, so you'll need to run jupyter notebook on some port on ADA and then forward that port to your local PC so that you can access jupyter notebook that is running on ADA through your PC. There's a neat script to do this (added to this repo as [jp.sh](https://github.com/dheerajpreddy/Research-Starter-Kit/blob/master/jp.sh). Save the script as `jp.sh` and run the following - `./jp.sh XXXX YYYY <local_PC_IP> <PC_username>`. Now you can open `localhost:YYYY` on your PC and access jupyter on your browser.
+          - [Jupyter Notebook Quickstart]: Run `ssh -L 8889:localhost:8889 -J username@ada.iiit.ac.in username@gnodeXX` on local. Launch your notebook on port 8889 on gnodeXX. Access your notebook at localhost:8889/.
 - Set a password for your jupyter notebook so that you don't need to authenticate with a key all the time - `jupyter notebook password`
 - To check for nodes currently occupied by you - `squeue -u $USER`
 - `sinteractive` has a time limit of 6 hours. In order to run longer codes, you'll need to write a batch job and run it using `sbatch`. Batch jobs are just bash scripts that you can submit using `sbatch batch_job.sh`
