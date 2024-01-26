@@ -166,29 +166,46 @@ module add cudnn/7-cuda-8.0
 If you don't prefer using terminal editors such as vim all the time or just don't have to patience to adapt to and learn a terminal driven workflow, these ssh hacks would get you on the same routine you might already be used to. 
 
 ### VS Code
-VS Code over Remote SSH is not as straightforward as you might think as we don't (and can't) run scripts on the ada headnode/login node. And trying to launch VS Code Remote SSH would just lag out. These are the steps to get it right:
-1. Create a normal sinteracitve session as you would
+VS Code over Remote SSH is not as straightforward as you might think as we don't (and can't) run scripts on the ada headnode/login node. And trying to launch VS Code Remote SSH would just lag out. 
+Steps to connect code to gnode are - 
+
+1. ssh into ada and create an interactive session
+
 ```bash
-ssh user@ada
-sinteractive -c 40 -g 4 -A $USER
+ssh <user>@ada
+sinteractive <args>
 ```
-2. Take note of the machine you logged into. In our case, let's assume we connected to gnode01.
-3. Port forward ssh connection from the gnode via the headnode as a ProxyJump
+
+_Side note_: Do check out Avneesh Mishra's script for [csinteractive](https://github.com/TheProjectsGuy/DotFiles/blob/main/shellscripts/ada/csinteractive.sh) - makes things much easier.
+
+2. Now you have a terminal with the shell showing something of the form `<user>@gnode117:~$`. Take note of the gnode (It is gnode 117 here). 
+3. Open a new terminal in your local machine and paste the following (change gnode number as needed). It creates a ProxyJump to the gnode via the headnode.
+
 ```bash
-ssh -L 6000:localhost:22 -J user@ada user@gnode01
+ssh -L 6000:localhost:22 -J <user>@ada <user>@gnode117
 ```
-4. (optional) Test the port forwarded connection
+
+This should open a connection to `<user>@gnode117` in the new terminal as well. Do _not_ close this terminal.
+
+4. (_Optional_) Open a new terminal in your local machine and paste the following to test whether the connection has been established.
+
 ```bash
-ssh -p 6000 user@localhost
+ssh -p 6000 <user>@localhost
 ```
-5. Install the Remote-SSH extension from the Extension Store of VS Code
-6. Create and launch the Remote SSH session as usual and enter ```ssh -p 6000 user@localhost``` when prompted for the login and voila! You're in! Alternatively enter the following in your ssh configs file on your local machine (~/.ssh/config) and choose "ada" when prompted for the Remote Server. 
-```
+
+5. Open up VS Code and install the _Remote - SSH_ extension.
+6. Press Ctrl+Shift+P (Opens up editor commands). Look for Remote-SSH: Connect to host. Select it. 
+7. Select _+ Add new SSH host_. It'll prompt you for the ssh command. Type in ```ssh -p 6000 <user>@localhost```.
+8. It'll prompt you for the ssh config file. Select the first option. If you need to check later on, the config file will have this inside it:
+
+```text
 Host gnode
-  HostName localhost
-  Port 6000
-  User user
+    HostName localhost
+    Port 6000
+    User <user>
 ```
+
+_Highly recommended_: Add ssh key to ada ([ref](https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys-2)). You won't have to use your password every time then.
 
 ### PyCharm
 Remote interpreters can be configured in the same way as mentioned above. Take note that this requires a professional license of PyCharm. The folder syncing options can be configured under `Tools>Deployment`. Most of the information is already available in the [official docs](https://www.jetbrains.com/help/pycharm/configuring-remote-interpreters-via-ssh.html). 
